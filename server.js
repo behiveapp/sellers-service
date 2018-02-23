@@ -1,14 +1,22 @@
-const express = require('express');
+const cluster = require('cluster');
+const numCPUs = require('os').cpus().length;
+const {app} = require('./src/app');
 
-// Constants
-const PORT = 8080;
-const HOST = '0.0.0.0';
+const {HOST = '0.0.0.0', PORT = 3000} = process.env;
 
-// App
-const app = express();
-app.get('/', (req, res) => {
-  res.send('Hello world!!!\n');
-});
+if (cluster.isMaster) {
+  for (let i = 0; i < numCPUs; i++) {
+    cluster.fork();
+  }
 
-app.listen(PORT, HOST);
-console.log(`Running on http://${HOST}:${PORT}`);
+  cluster.on('exit', (worker, code, signal) => {
+    console.log(`Worker ${worker.process.pid} died with code: ${code}, and signal: ${signal}. Starting a new worker`);
+    cluster.fork();
+  });
+
+  console.log(`Application listening at http://${HOST}:${PORT}`);
+} else {
+  app.listen(PORT, HOST);
+  console.log(`Application was forked at process ${cluster.worker.process.pid}`);
+}
+
