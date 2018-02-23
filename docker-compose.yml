@@ -4,10 +4,13 @@ services:
     build: .
     volumes:
       - ".:/app"
+      - modules:/app/node_modules
     ports:
       - 3000:8080
     command: npm run start-dev
     networks:
       - bridge
+volumes:
+  modules:
 networks:
   bridge:
