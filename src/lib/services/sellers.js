@@ -2,6 +2,14 @@ class SellersService {
   static getAll(){
     return SellersService.mockSellers;
   }
+
+  static find(id){
+    const seller = SellersService.mockSellers.find((seller) => {
+      return seller._id === id;
+    });
+
+    return seller || null;
+  }
 }
 SellersService.mockSellers = [
   {
