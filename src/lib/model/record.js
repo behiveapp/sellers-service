@@ -2,14 +2,16 @@ const mongoose = require('mongoose');
 
 class Record {
 
-  constructor(documentName, schema, data){
+  constructor(data){
     this.__proto__ = new this.constructor.collection(data);
   }
 
   static get collection(){
-    return mongoose.model(this.name, this.schema);
+    collections[this.name] = collections[this.name] || mongoose.model(this.name, this.schema)
+    return collections[this.name];
   }
 
 }
+const collections = {};
 
 module.exports = Record;
