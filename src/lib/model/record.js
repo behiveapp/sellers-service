@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-mongoose.Promise = Promise;
 
 class Record {
 
@@ -14,6 +13,10 @@ class Record {
 
   static find(query){
     return this.collection.find(query).exec();
+  }
+
+  static findOne(query){
+    return this.collection.findOne(query).exec();
   }
 
 }

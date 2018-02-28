@@ -1,7 +1,7 @@
-const SellersService = require('../lib/services/sellers');
+const Seller = require('../lib/model/seller');
 
-const getSeller = (req, res) => {
-  const seller = SellersService.find(req.params.id);
+const getSeller = async (req, res) => {
+  const seller = await Seller.findOne({identifier: req.params.id});
 
   if(seller){
     res.json(seller);

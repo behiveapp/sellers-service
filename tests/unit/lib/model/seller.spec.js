@@ -20,10 +20,8 @@ describe('Seller Model', () => {
   describe('#getAll', async () => {
     it('Should return all sellers', async () => {
       const sellers = await Seller.collection.find().exec();
-      const extractedSellers = extractSellers(sellers);
       
       expect(sellers.length).toBe(2);
-      expect(extractedSellers).toEqual(mockSellers);
     });
     
   });

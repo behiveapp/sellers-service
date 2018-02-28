@@ -7,9 +7,9 @@
   "scripts": {
     "start": "node server.js",
     "start-dev": "nodemon server.js",
-    "test": "jest __tests__/unit __tests__/system --watch",
-    "test-unit": "jest __tests__/unit --forceExit",
-    "test-system": "jest __tests__/system --forceExit"
+    "test": "jest --watch",
+    "test-unit": "jest tests/unit --forceExit",
+    "test-system": "jest tests/system --forceExit"
   },
   "dependencies": {
     "express": "^4.16.2",

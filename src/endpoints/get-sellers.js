@@ -1,18 +1,7 @@
-const SellersService = require('../lib/services/sellers');
 const Seller = require('../lib/model/seller');
 
 const getSellers = async (req, res) => {
-  const sellers = SellersService.getAll();
-
-
-  Seller.find().then(console.log)
-//   const testSeller = new Seller({identifier: 'bbbc'});
-//   await testSeller.save();
-// Seller.collection.find(function (err, kittens) {
-//   if (err) return console.error(err);
-//   console.log(kittens);
-// });
-
+  const sellers = await Seller.find();
   res.json(sellers);
 };
 
