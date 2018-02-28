@@ -1,0 +1,20 @@
+version: '3'
+services:
+  app:
+    container_name: sellers-service
+    build: .
+    volumes:
+      - ".:/app"
+      - modules:/app/node_modules
+    ports:
+      - 3000:3000
+    command: npm run start-dev
+    networks:
+      - bridge
+    environment:
+      - PORT=3000
+      - NODE_ENV=development
+volumes:
+  modules:
+networks:
+  bridge:
