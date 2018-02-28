@@ -14,16 +14,27 @@ const initializeSellers = () => {
     identifier: '02002002000226'
   }];
 
-  data.forEach(seller => {
-    new Seller(seller).save()
-    .then(console.log)
-    .catch(console.log)
-  });
+  return Promise.all(data.map(async (seller) => {
+    return new Seller(seller).save()
+  }));
+  
+  // return new Promise(resolve => {
+  //   for(let i = 1; i <= data.length; i++){
+  //     new Seller(data[i]).save()
+  //     .then(response => {console.log("Document inserted successfully")})
+  //     .catch(err => {console.log});
+
+  //     if(i === data.length) resolve();
+  //   }
+  // });
 }
 
 
 const clearSellers = () => {
-  mongoose.connection.db.dropCollection('sellers')
+  return new Promise(resolve => {
+    mongoose.connection.db.dropCollection('sellers');
+    resolve();
+  });
 }
 
 module.exports = {

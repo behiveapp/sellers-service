@@ -1,17 +1,24 @@
 const Seller = require('../../../../src/lib/model/seller');
 const {initializeSellers, clearSellers} = require('../../../utils/sellers');
+const mongoose = require('mongoose');
 
 describe('Seller Model', () => {
-  beforeEach(() => {
-    initializeSellers();
+  beforeAll(() => {
+    const {MONGO_URL = 'localhost:3001/sellers-test'} = process.env;
+    var options = { server: { socketOptions: { keepAlive: 1 } } };
+    mongoose.connect(MONGO_URL, options);
   });
 
-  afterEach(() => {
-    clearSellers();
+  beforeEach(async () => {
+    await initializeSellers();
   });
 
-  describe('#getAll', () => {
-    it('Should return all sellers', () => {
+  afterEach(async () => {
+    await clearSellers();
+  });
+
+  describe('#getAll', async () => {
+    it('Should return all sellers', async () => {
       const mockSellers = [{
         full_name: 'Império das Grifes LTDA',
         short_name: 'Império das Grifes',
@@ -22,27 +29,28 @@ describe('Seller Model', () => {
         short_name: 'Computei Consultoria',
         identifier: '02002002000226'
       }];
+      
+      const sellers = await Seller.collection.find().exec();
+      expect(sellers.length).toBe(2);
 
-      const sellers = Seller.collection.find();
-
-      expect(sellers).toEqual(mockSellers);
     });
     
   });
 
-  describe('#find', () => {
-    it("Should return the correct seller if it exists", () => {
-      const seller = Seller.collection.find({identifier: '01001001000113'});
+  describe('#find', async () => {
+    it("Should return the correct seller if it exists", async () => {
+      const seller = await Seller.collection.findOne({identifier: '01001001000113'}).exec();
+      console.log(">>>>>>>");
+      console.log(seller);
+      const {full_name, short_name, identifier} = seller;
 
-      expect(seller).toEqual({
-        full_name: 'Império das Grifes LTDA',
-        short_name: 'Império das Grifes',
-        identifier: '01001001000113'
-      });
+      expect(full_name).toBe('Império das Grifes LTDA');
+      expect(short_name).toBe('Império das Grifes');
+      expect(identifier).toBe('01001001000113');
     });
 
-    it("Should return null if seller does not exist", () => {
-      const seller = Seller.collection.find('123');
+    it("Should return null if seller does not exist", async () => {
+      const seller = await Seller.collection.findOne({identifier: '123'}).exec();
 
       expect(seller).toBeNull();
     });
