@@ -1,11 +1,6 @@
 const Seller = require('../lib/model/seller');
 
 const createSeller = async (req, res) => {
-  console.log(req);
-  console.log(req.body);
-  console.log(req.data);
-  console.log(req.params);
-  console.log(req.query);
   const seller = new Seller(req.body);
 
   try{

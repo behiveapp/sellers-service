@@ -11,11 +11,8 @@ describe('GET / endpoint', () => {
   });
 
   beforeEach(async () => {
-    await initializeSellers();
-  });
-
-  afterEach(async () => {
     await clearSellers();
+    await initializeSellers();
   });
 
   it('Should return 200 status', async () => {

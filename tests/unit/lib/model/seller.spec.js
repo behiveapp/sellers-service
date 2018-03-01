@@ -10,11 +10,8 @@ describe('Seller Model', () => {
   });
 
   beforeEach(async () => {
-    await initializeSellers();
-  });
-
-  afterEach(async () => {
     await clearSellers();
+    await initializeSellers();
   });
 
   describe('#getAll', async () => {
