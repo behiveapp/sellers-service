@@ -21,11 +21,7 @@ const initializeSellers = () => {
 
 
 const clearSellers = async () => {
-  return new Promise(async (resolve) => {
-    await new Seller({identifier: Math.random()}).save();
-    mongoose.connection.db.dropCollection('sellers');
-    resolve();
-  });
+  return Seller.collection.remove().exec();
 }
 
 const mockSellers = [{
