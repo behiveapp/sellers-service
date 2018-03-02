@@ -19,6 +19,10 @@ class Record {
     return this.collection.findOne(query).exec();
   }
 
+  static update(query, values){
+    return this.collection.findOneAndUpdate(query, values).exec();
+  }
+
 }
 const collections = {};
 
