@@ -1,10 +1,12 @@
 const Seller = require('../lib/model/seller');
 
-const getSeller = async (req, res) => {
+const createSeller = async (req, res) => {
+  const seller = new Seller(req.body);
+  
   try{
-    const seller = await Seller.findOne({identifier: req.params.id});
-    res.json(seller);
-  }catch(err){
+    await seller.save();
+    res.json(seller._document);
+  } catch(err){
     const errStatusCode = err.status || 500;
     const errType = err.name || 'ErrorUnknown';
 
@@ -13,9 +15,8 @@ const getSeller = async (req, res) => {
     res.end();
   }
 
-
 };
 
 module.exports = {
-  getSeller
+  createSeller
 }

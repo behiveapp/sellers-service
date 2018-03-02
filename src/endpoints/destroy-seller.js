@@ -1,8 +1,12 @@
 const Seller = require('../lib/model/seller');
 
-const getSeller = async (req, res) => {
+const destroySeller = async (req, res) => {
+  const {body: requestBody} = req;
+
   try{
-    const seller = await Seller.findOne({identifier: req.params.id});
+    const seller =  await Seller.findOne({identifier: req.params.id});
+    seller.remove();
+
     res.json(seller);
   }catch(err){
     const errStatusCode = err.status || 500;
@@ -13,9 +17,8 @@ const getSeller = async (req, res) => {
     res.end();
   }
 
-
 };
 
 module.exports = {
-  getSeller
+  destroySeller
 }

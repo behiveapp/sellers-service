@@ -5,8 +5,7 @@ const app = require('./src/app');
 
 const connectMongo = () => {
   const {MONGO_URL = 'localhost:3001/sellers'} = process.env;
-  var options = { server: { socketOptions: { keepAlive: 1 } } };
-  return mongoose.connect(MONGO_URL, options);
+  return mongoose.connect(MONGO_URL);
 }
 
 const startNodeCluster = () => {

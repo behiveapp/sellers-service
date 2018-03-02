@@ -1,8 +1,13 @@
 const Seller = require('../lib/model/seller');
 
-const getSeller = async (req, res) => {
+const updateSeller = async (req, res) => {
+  const {body: requestBody} = req;
+
   try{
-    const seller = await Seller.findOne({identifier: req.params.id});
+    const seller =  await Seller.findOne({identifier: req.params.id});
+    Object.keys(requestBody).forEach(field => {seller[field] = requestBody[field]});
+    seller.save();
+
     res.json(seller);
   }catch(err){
     const errStatusCode = err.status || 500;
@@ -13,9 +18,8 @@ const getSeller = async (req, res) => {
     res.end();
   }
 
-
 };
 
 module.exports = {
-  getSeller
+  updateSeller
 }
