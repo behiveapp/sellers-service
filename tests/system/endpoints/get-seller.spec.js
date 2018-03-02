@@ -1,13 +1,11 @@
 const request = require('supertest');
 const app = require('../../../src/app');
-const {initializeSellers, clearSellers, mockSellers, extractSellers} = require('../../utils/sellers');
+const {initializeSellers, clearSellers, mockSellers, connectMongo} = require('../../utils/sellers');
 const mongoose = require('mongoose');
 
 describe('GET /:id endpoint', () => {
   beforeAll(() => {
-    const {MONGO_URL = 'localhost:3001/sellers-test'} = process.env;
-    var options = { server: { socketOptions: { keepAlive: 1 } } };
-    mongoose.connect(MONGO_URL, options);
+    connectMongo();
   });
 
   beforeEach(async () => {

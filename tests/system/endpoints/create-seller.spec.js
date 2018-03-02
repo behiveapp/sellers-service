@@ -1,26 +1,33 @@
 const request = require('supertest');
 const app = require('../../../src/app');
-const {initializeSellers, clearSellers, mockSellers, extractSellers} = require('../../utils/sellers');
+const {initializeSellers, clearSellers, mockSellers, connectMongo} = require('../../utils/sellers');
 const mongoose = require('mongoose');
 
 describe('POST / endpoint', () => {
   beforeAll(() => {
-    const {MONGO_URL = 'localhost:3001/sellers-test'} = process.env;
-    var options = { server: { socketOptions: { keepAlive: 1 } } };
-    mongoose.connect(MONGO_URL, options);
+    connectMongo();
   });
 
   beforeEach(async () => {
     await clearSellers();
   });
 
-  fit('Should return 200 status if seller was created', async () => {
+  afterEach(async () => {
+    await clearSellers();
+  });
+
+  it('Should return 200 status if seller was created', async () => {
     const response = await request(app).post('/').send({identifier: '01001001000113'});
     expect(response.statusCode).toBe(200);
   });
 
   it('Should return the correct seller if it was found', async () => {
-    const response = await request(app).post('/').send({identifier: '01001001000113'});
+    const response = await request(app).post('/').send({
+      identifier: '02002002000226',
+      full_name:'Computei Consultoria SA',
+      short_name: 'Computei Consultoria'
+    });
+    
     const {full_name, short_name, identifier} = response.body;
     
     expect(full_name).toBe('Computei Consultoria SA');
@@ -28,8 +35,8 @@ describe('POST / endpoint', () => {
     expect(identifier).toBe('02002002000226');
   });
 
-  // it('Should return the correct seller if it wasn`t found', async () => {
-  //   const response = await request(app).get('/123');
-  //   expect(response.statusCode).toBe(404);
-  // });
+  it('Should return 422 status if a required field wasn`t informed', async () => {
+    const response = await request(app).post('/').send({});
+    expect(response.statusCode).toBe(422);
+  });
 });

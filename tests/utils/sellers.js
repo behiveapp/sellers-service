@@ -20,8 +20,9 @@ const initializeSellers = () => {
 }
 
 
-const clearSellers = () => {
-  return new Promise(resolve => {
+const clearSellers = async () => {
+  return new Promise(async (resolve) => {
+    await new Seller({identifier: Math.random()}).save();
     mongoose.connection.db.dropCollection('sellers');
     resolve();
   });
@@ -38,22 +39,14 @@ const mockSellers = [{
   identifier: '02002002000226'
 }];
 
-const extractSellers = (sellers) => {
-  const extractFields = ['full_name', 'short_name', 'identifier'];
-
-  return sellers.map(seller => {
-    return Object.keys(seller).reduce((acc, field) => {
-      if(extractFields.includes(field)){
-        acc[field] = seller[field];
-      }
-      return acc;
-    }, {});
-  });
+const connectMongo = () => {
+  const {MONGO_URL = 'localhost:3001/sellers'} = process.env;
+  mongoose.connect(MONGO_URL);
 }
 
 module.exports = {
   initializeSellers,
   clearSellers,
   mockSellers,
-  extractSellers
+  connectMongo
 }
