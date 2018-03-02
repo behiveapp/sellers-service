@@ -1,17 +1,21 @@
 const Seller = require('../lib/model/seller');
 
 const updateSeller = async (req, res) => {
-  console.log(">>>>>");
+  const {body: requestBody} = req;
   try{
+    const seller =  await Seller.findOne({identifier: req.params.id}, requestBody);
+    Object.keys(requestBody).forEach((field) => {seller[field] = requestBody[field]});
+    await seller.save();
 
-    const seller =  await Seller.update({identifier: req.params.id}, req.body);
-    if(!seller) res.send(404);
-    console.log(seller);
     res.json(seller);
-  }catch(e){
-    console.log(e);
-    res.status(422);
-    res.json(e);
+  }catch(err){
+    console.log(err);
+    const errStatusCode = err.status || 500;
+    const errType = err.name || 'ErrorUnknown';
+
+    res.status(errStatusCode);
+    console.error(`${errType} - `, err);
+    res.end();
   }
 
 };

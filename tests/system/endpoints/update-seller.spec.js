@@ -33,7 +33,7 @@ describe('PUT /:id endpoint', () => {
   });
 
   it('Should return 404 status if seller wasn`t found', async () => {
-    const response = await request(app).put('/02002002000226').send({full_name: 'Changed Full Name'});
+    const response = await request(app).put('/foo').send({full_name: 'Changed Full Name'});
     expect(response.statusCode).toBe(404);
   });
 });
