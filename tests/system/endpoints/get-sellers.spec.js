@@ -3,7 +3,7 @@ const app = require('../../../src/app');
 const {initializeSellers, clearSellers, mockSellers, connectMongo} = require('../../utils/sellers');
 const mongoose = require('mongoose');
 
-describe('GET / endpoint', () => {
+describe('PUT /:id endpoint', () => {
   beforeAll(() => {
     connectMongo();
   });
