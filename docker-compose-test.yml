@@ -2,6 +2,7 @@ version: '3'
 services:
   app:
     container_name: sellers-service
+    image: behive/sellers-service
     build: .
     volumes:
       - ".:/app"
@@ -15,6 +16,21 @@ services:
       - PORT=3000
       - NODE_ENV=development
       - MONGO_URL=mongodb://mongo/sellers-test
+      - PRODUCTS_SERVICE_HOST=localhost:3002
+    depends_on:
+      - mongo
+      - sellers-products_service
+  sellers-products_service:
+    container_name: sellers-products_service
+    image: behive/products-service
+    ports:
+      - 3002:3002
+    networks:
+      - bridge
+    environment:
+      - PORT=3002
+      - NODE_ENV=development
+      - MONGO_URL=mongodb://mongo/products-test
     depends_on:
       - mongo
   mongo:

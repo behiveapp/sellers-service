@@ -1,3 +1,5 @@
+const Seller = require('../lib/model/seller');
+
 const getProducts = async (req, res) => {
   try{
     const seller = await Seller.findOne({identifier: req.params.id});
@@ -15,5 +17,5 @@ const getProducts = async (req, res) => {
 };
 
 module.exports = {
-  getSeller
+  getProducts
 }
