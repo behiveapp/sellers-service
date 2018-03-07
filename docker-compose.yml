@@ -16,7 +16,7 @@ services:
       - PORT=3000
       - NODE_ENV=development
       - MONGO_URL=mongodb://mongo/sellers
-      - PRODUCTS_SERVICE_HOST=localhost:3002
+      - PRODUCTS_SERVICE_HOST=sellers-products_service:3002
     depends_on:
       - mongo
   sellers-products_service:

@@ -1,19 +1,21 @@
-const axios = require('axios');
+const fetch = require('node-fetch');
 
-const fetchSellerProducts = async (sellerIdentifier) => {
-  const endpoint = _getEndpoint(sellerIdentifier);
+const fetchSellerProducts = async (seller) => {
+  const endpoint = _getEndpoint(seller.identifier);
   
   try{
-    const products = await axios.get(endpoint);
-    console.log(response);
+    const response = await fetch(endpoint);
+    console.log(response.ok);
+    const data = await response.json();
+    return data;
   } catch(err) {
-    console.log(err);
+    console.log(err, ">>>>");
   }
 };
 
 const _getEndpoint = (sellerIdentifier) => {
   const {PRODUCTS_SERVICE_HOST} = process.env;
-  return `${PRODUCTS_SERVICE_HOST}/from-seller/${sellerIdentifier}`;
+  return `http://${PRODUCTS_SERVICE_HOST}/from-seller/${sellerIdentifier}`;
 };
 
 module.exports = {

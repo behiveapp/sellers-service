@@ -20,7 +20,11 @@ const initializeProducts = async () => {
   }];
 
   data.forEach(async (product) => {
-    await axios.post(`http://${PRODUCTS_SERVICE_HOST}`, product);
+    try{
+      await axios.post(`http://${PRODUCTS_SERVICE_HOST}`, product);
+    } catch(err){
+      console.log(err.response);
+    }
   });
 
 }
