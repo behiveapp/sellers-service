@@ -1,4 +1,5 @@
 const axios = require('axios');
+const mongoose = require("mongoose");
 
 const initializeProducts = async () => {
   const {PRODUCTS_SERVICE_HOST} = process.env;
@@ -20,20 +21,16 @@ const initializeProducts = async () => {
   }];
 
   data.forEach(async (product) => {
-    try{
-      await axios.post(`http://${PRODUCTS_SERVICE_HOST}`, product);
-    } catch(err){
-      console.log(err.response);
-    }
+    const r = await axios.post(`http://${PRODUCTS_SERVICE_HOST}`, product);
   });
 
 }
 
 const clearProducts = async () => {
   const {PRODUCTS_SERVICE_HOST} = process.env;
-  const codes = ['PROD01', 'PROD02', 'PROD03'];
-
-  codes.forEach( async (code) => {
+  
+  const {data: products} = await axios.get(`http://${PRODUCTS_SERVICE_HOST}/`);
+  products.forEach( async ({code}) => {
     await axios.delete(`http://${PRODUCTS_SERVICE_HOST}/${code}`);
   });
 }

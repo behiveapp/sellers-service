@@ -11,9 +11,9 @@ describe('GET /:id/get-products endpoint', () => {
 
   beforeEach(async () => {
     await clearSellers();
+    await clearProducts();
     await initializeSellers();
     await initializeProducts();
-    // await clearProducts();
   });
 
   it('Should return 200 status if seller was found', async () => {

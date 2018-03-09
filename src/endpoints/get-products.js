@@ -7,7 +7,6 @@ const getProducts = async (req, res) => {
     const products = await fetchSellerProducts(seller);
     res.json(products);
   }catch(err){
-    console.log(err)
     const errStatusCode = err.status || 500;
     const errType = err.name || 'ErrorUnknown';
 
