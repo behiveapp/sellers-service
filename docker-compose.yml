@@ -30,8 +30,11 @@ services:
       - PORT=3002
       - NODE_ENV=development
       - MONGO_URL=mongodb://mongo/products
+      - ELASTICSEARCH_HOST=elasticsearch
+      - ELASTICSEARCH_PORT=9200
     depends_on:
       - mongo
+      - elasticsearch
   mongo:
     container_name: sellers-mongo
     image: mongo
@@ -41,8 +44,26 @@ services:
       - 3001:27017
     networks:
       - bridge
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.2.3
+    container_name: sellers-elasticsearch
+    environment:
+      - cluster.name=docker-cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
+    ports:
+      - 3003:9200
+    networks:
+      - bridge
 volumes:
   node_modules:
   mongo_data:
+  esdata:
 networks:
   bridge:
