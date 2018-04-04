@@ -20,7 +20,7 @@ const initializeSellers = () => {
 }
 
 
-const clearSellers = async () => {
+const clearSellers = () => {
   return Seller.collection.remove().exec();
 }
 
@@ -37,7 +37,7 @@ const mockSellers = [{
 
 const connectMongo = () => {
   const {MONGO_URL = 'localhost:3001/sellers'} = process.env;
-  mongoose.connect(MONGO_URL);
+  return mongoose.connect(MONGO_URL);
 }
 
 module.exports = {
