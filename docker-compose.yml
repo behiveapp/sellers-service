@@ -16,18 +16,20 @@ services:
       - PORT=3000
       - NODE_ENV=development
       - MONGO_URL=mongodb://mongo/sellers
-      - PRODUCTS_SERVICE_HOST=sellers-products_service:3002
+      - PRODUCTS_SERVICE_HOST=sellers-products_service:3003
+      - ELASTICSEARCH_HOST=elasticsearch
+      - ELASTICSEARCH_PORT=9200
     depends_on:
       - mongo
   sellers-products_service:
     container_name: sellers-products_service
     image: behive/products-service
     ports:
-      - 3002:3002
+      - 3003:3003
     networks:
       - bridge
     environment:
-      - PORT=3002
+      - PORT=3003
       - NODE_ENV=development
       - MONGO_URL=mongodb://mongo/products
       - ELASTICSEARCH_HOST=elasticsearch
@@ -58,7 +60,7 @@ services:
     volumes:
       - esdata:/usr/share/elasticsearch/data
     ports:
-      - 3003:9200
+      - 3002:9200
     networks:
       - bridge
 volumes:
