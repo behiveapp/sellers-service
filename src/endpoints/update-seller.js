@@ -5,7 +5,9 @@ const updateSeller = async (req, res) => {
 
   try{
     const seller =  await Seller.findOne({identifier: req.params.id});
-    Object.keys(requestBody).forEach(field => {seller[field] = requestBody[field]});
+    for(let field of Object.keys(requestBody)){
+      seller[field] = requestBody[field];
+    }
     seller.save();
 
     res.json(seller);

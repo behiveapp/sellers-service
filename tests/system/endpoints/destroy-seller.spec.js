@@ -4,8 +4,8 @@ const {initializeSellers, clearSellers, mockSellers, connectMongo} = require('..
 const mongoose = require('mongoose');
 
 describe('DELETE /:id endpoint', () => {
-  beforeAll(() => {
-    connectMongo();
+  beforeAll(async () => {
+    await connectMongo();
   });
 
   beforeEach(async () => {
