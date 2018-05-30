@@ -4,8 +4,8 @@ const {initializeSellers, clearSellers, mockSellers, connectMongo} = require('..
 const mongoose = require('mongoose');
 
 describe('PUT /:id endpoint', () => {
-  beforeAll(() => {
-    connectMongo();
+  beforeAll(async () => {
+    await connectMongo();
   });
 
   beforeEach(async () => {
